@@ -7,6 +7,13 @@
     "dialect": "mysql",
     "port": 8889
   },
+  "development2": {
+    "username": "postgres",
+    "password": null,
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
   "test": {
     "username": "root",
     "password": null,

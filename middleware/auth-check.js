@@ -32,7 +32,6 @@ module.exports = (req, res, next) => {
         // check if a user exists
         return User.findById(userId)
           .then(user => {
-            console.log(user)
             if (!user) {
                 return res.status(401).json({
                     success: false,

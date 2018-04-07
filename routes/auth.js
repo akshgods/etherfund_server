@@ -95,7 +95,6 @@ router.post('/signup', (req, res, next) => {
         if (err) {
             console.log(err)
             if (err.message === "email already exists") {
-                // the 11000 Mongo code is for a duplication email error
                 // the 409 HTTP status code is for conflict error
                 return res.status(409).json({
                     success: false,
