@@ -26,9 +26,14 @@ function validateSignupForm(payload) {
         errors.password = 'Password must have at least 8 characters.';
     }
 
-    if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
+    if (!payload || typeof payload.firstName !== 'string' || payload.firstName.trim().length === 0) {
         isFormValid = false;
-        errors.name = 'Please provide your name.';
+        errors.firstName = 'Please provide your first name.';
+    }
+
+    if (!payload || typeof payload.lastName !== 'string' || payload.lastName.trim().length === 0) {
+        isFormValid = false;
+        errors.lastName = 'Please provide your last name.';
     }
 
     if (!isFormValid) {
@@ -88,7 +93,8 @@ router.post('/signup', (req, res, next) => {
 
     return passport.authenticate('local-signup', (err) => {
         if (err) {
-            if (err.name === 'MongoError' && err.code === 11000) {
+            console.log(err)
+            if (err.message === "email already exists") {
                 // the 11000 Mongo code is for a duplication email error
                 // the 409 HTTP status code is for conflict error
                 return res.status(409).json({

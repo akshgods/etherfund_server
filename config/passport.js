@@ -8,25 +8,6 @@ const config = require('../config');
 // expose this function to our app using module.exports
 module.exports = function (passport) {
 
-  // passport session setup ==================================================
-  // required for persistent login sessions
-  // passport needs ability to serialize and unserialize users out of session
-
-  // used to serialize the user for the session
-  passport.serializeUser(function (user, done) {
-    done(null, user.id)
-  })
-
-  // used to deserialize the user
-  passport.deserializeUser(function (id, done) {
-    User.findById(id).then(function (user) {
-      if (user) {
-        done(null, user.get())
-      } else {
-        done(user.errors, null)
-      }
-    })
-  })
 
   // LOCAL SIGNUP ============================================================
   // we are using named strategies since we have one for login and one for signup
@@ -45,7 +26,7 @@ module.exports = function (passport) {
     }).then(function (user) {
       // check to see if theres already a user with that username
       if (user) {
-        return done(null, false, { message: "username already exists"}) 
+        return done({ message: "email already exists"})
       } else {
         User.create({
           email: req.body.email,
@@ -53,12 +34,11 @@ module.exports = function (passport) {
           firstName: req.body.firstName,
           lastName: req.body.lastName
         }).then(function (newUser) {
+          console.log(newUser.get())
           if (!newUser) {
-            return done(null, false)
+            return done({ message: "cannot process the data entry"})
           }
-          if (newUser) {
-            return done(null, newUser)
-          }
+          return done(null)
         })
       }
     })
@@ -80,18 +60,16 @@ module.exports = function (passport) {
         email: email
       }
     }).then(function(user) {
-      //console.log(user)
 
       // if no user is found, return the message
       if (!user)
-        return done(null, false, { message : "Incorrect email"}) 
+        return done({ name: "IncorrectCredentialsError", message : "Incorrect email"})
 
       // if the user is found but the password is wrong
       if (!validPassword(password, user.password))
-        return done(null, false, { message : "Incorrect password"}) 
-        
-      const token = jwt.sign(payload, config.jwtSecret);
-      console.log(user.get())
+        return done({ name: "IncorrectCredentialsError", message : "Incorrect password"})
+
+      const token = jwt.sign({ sub: user.id }, config.jwtSecret);
       // all is well, return successful user
       return done(null, token, user.get())
     })
