@@ -1,15 +1,15 @@
-var express = require('express')
-var app = express()
+const express = require('express')
+const app = express()
 
-var db = require('./models')
+const db = require('./models')
 
-var morgan = require('morgan')
-var bodyParser = require('body-parser')
-var methodOverride = require('method-override')
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 
-var passport = require('passport')
+const passport = require('passport')
 
-var port = process.env.PORT || 8080
+const port = process.env.PORT || 8080
 
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public'))
@@ -28,16 +28,18 @@ app.use(bodyParser.json())
 
 // required for passport
 app.use(passport.initialize())
-app.use(passport.session()) // persistent login sessions
-
-// HTML routes ======================================================================
-require('./routes/html-routes.js')(app, passport) // load our routes and pass in our app and fully configured passport
-
-// API routes
-require('./routes/api-routes.js')(app, passport) 
-
 
 require('./config/passport')(passport) // pass passport for configuration
+
+const authCheckMiddleware = require('./middleware/auth-check');
+app.use('/api', authCheckMiddleware);
+
+// routes
+const authRoutes = require('./routes/auth');
+const apiRoutes = require('./routes/api');
+app.use('/auth', authRoutes);
+app.use('/api', apiRoutes);
+
 
 db.sequelize.sync()
   .then(function () {
