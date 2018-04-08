@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    runner: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     runner_id: {
       type: DataTypes.STRING,
       allowNull: false

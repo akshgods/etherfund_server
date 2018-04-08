@@ -30,7 +30,7 @@ module.exports = (req, res, next) => {
         const userId = decoded.sub;
         const date = decoded.expiry;
 
-        if (date !== new Date().getMonth) {
+        if (date !== new Date().getMonth()) {
             return res.status(401).json({
                     success: false,
                     message: "Authorization Errors",
