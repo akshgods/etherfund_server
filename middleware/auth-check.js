@@ -28,6 +28,15 @@ module.exports = (req, res, next) => {
           }
 
         const userId = decoded.sub;
+        const date = decoded.expiry;
+
+        if (date !== new Date().getMonth) {
+            return res.status(401).json({
+                    success: false,
+                    message: "Authorization Errors",
+                    errors: "Token is expired."
+                })
+        }
 
         // check if a user exists
         return User.findById(userId)
@@ -36,7 +45,7 @@ module.exports = (req, res, next) => {
                 return res.status(401).json({
                     success: false,
                     message: "Authorization Errors",
-                    errors: "User is not found"
+                    errors: "User is not found."
                 })
             }
             return next();

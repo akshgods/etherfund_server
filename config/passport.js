@@ -69,7 +69,7 @@ module.exports = function (passport) {
       if (!validPassword(password, user.password))
         return done({ name: "IncorrectCredentialsError", message : "Incorrect password"})
 
-      const token = jwt.sign({ sub: user.id }, config.jwtSecret);
+      const token = jwt.sign({ sub: user.id, expiry: new Date().getMonth() }, config.jwtSecret);
       // all is well, return successful user
       return done(null, token, user.get())
     })
