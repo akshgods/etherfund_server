@@ -10,24 +10,12 @@ router.get("/data", (req, res) => {
   });
 })
 
-router.post("/item", (req, res) => {
-  Item.create({
-    ...req.body
-  }).then(function(newData) {
-    console.log(newData.get());
-  })
-  return res.json({
-    success: true,
-    message: "You can see the data now!"
-  })
-});
-
 router.get("/item", (req, res) => {
   Item.findAndCountAll()
   .then(data => {
     return res.status(200).json(data)
   })
-  .catch(err => res.status(400).send(err))
+  .catch(err => console.log(err))
 });
 
 module.exports = router;

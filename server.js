@@ -37,8 +37,11 @@ app.use('/api', authCheckMiddleware);
 // routes
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
+const openRoutes = require('./routes/open');
+
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
+app.use('/open', openRoutes);
 
 
 db.sequelize.sync()

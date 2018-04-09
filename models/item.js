@@ -63,8 +63,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     story: {
-      type: DataTypes.TEXT,
-      allowNull: false
+      type: DataTypes.TEXT
     },
     currency: {
       type: DataTypes.STRING,
