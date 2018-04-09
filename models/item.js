@@ -33,8 +33,15 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    cardImgUrl: {
+      type: DataTypes.STRING
+    },
+    storyImgUrl: {
+      type: DataTypes.STRING
+    },
     startDate: {
       type: DataTypes.DATEONLY,
+      defaultValue: new Date(),
       allowNull: false
     },
     duration: {
@@ -43,6 +50,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     raised: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
       allowNull: false
     },
     target: {
