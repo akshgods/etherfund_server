@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    benefactor: {
+    beneficiary: {
       type: DataTypes.STRING,
       allowNull: false
     },
