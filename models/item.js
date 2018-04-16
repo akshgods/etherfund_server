@@ -25,6 +25,9 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    contractAddress: {
+      type: DataTypes.STRING
+    },
     city: {
       type: DataTypes.STRING,
       allowNull: false
@@ -50,6 +53,11 @@ module.exports = function (sequelize, DataTypes) {
     },
     raised: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
+      allowNull: false
+    },
+    backerCount: {
+      type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false
     },

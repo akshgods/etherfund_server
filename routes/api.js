@@ -1,7 +1,6 @@
 const route = require('express');
 const router = new route.Router();
-const Item = require("../models").Item;
-
+const control = require("../controllers/controller")
 
 router.get("/data", (req, res) => {
   return res.json({
@@ -10,24 +9,10 @@ router.get("/data", (req, res) => {
   });
 })
 
-router.post("/item", (req, res) => {
-  Item.create({
-    ...req.body
-  }).then(function(newData) {
-    console.log(newData.get());
-  })
-  return res.json({
-    success: true,
-    message: "You can see the data now!"
-  })
-});
+router.post("/item", control.postNewCampaign);
 
-router.get("/item", (req, res) => {
-  Item.findAndCountAll()
-  .then(data => {
-    return res.status(200).json(data)
-  })
-  .catch(err => res.status(400).send(err))
-});
+router.put("/item/:id", control.updateCampaignContract);
+
+router.put("/item/fund/:id", control.updateCampaignFundingInfo);
 
 module.exports = router;

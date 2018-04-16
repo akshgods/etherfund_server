@@ -1,7 +1,6 @@
 const route = require('express');
 const router = new route.Router();
-const Item = require("../models").Item;
-
+const control = require("../controllers/controller");
 
 router.get("/data", (req, res) => {
   return res.json({
@@ -10,12 +9,6 @@ router.get("/data", (req, res) => {
   });
 })
 
-router.get("/item", (req, res) => {
-  Item.findAndCountAll()
-  .then(data => {
-    return res.status(200).json(data)
-  })
-  .catch(err => console.log(err))
-});
+router.get("/item", control.getAllCampaign);
 
 module.exports = router;
