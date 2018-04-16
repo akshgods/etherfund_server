@@ -10,13 +10,16 @@ var db        = {};
 
 //console.log(process.env.DATABASE_URL)
 
+var sequelize = new Sequelize(process.env.DATABASE_URL, {dialectOptions: {
+  ssl: true /* for SSL config since Heroku gives you this out of the box */
+}});
+
+/*
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env.DATABASE_URL, {dialectOptions: {
-    ssl: true /* for SSL config since Heroku gives you this out of the box */
-  }});
+  var sequelize = new Sequelize(process.env.DATABASE_URL, config);
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+}*/
 
 fs
   .readdirSync(__dirname)
