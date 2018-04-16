@@ -1,7 +1,7 @@
 const Item = require("../models").Item;
 const Web3 = require("web3");
 const EtherFund = require("../contracts/EtherFund.json");
-const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+const web3 = new Web3(Web3.givenProvider || 'https://open-private.herokuapp.com/');
 
 module.exports = {
   getAllCampaign: (req, res) => {
@@ -39,13 +39,11 @@ module.exports = {
     console.log(req.body.contractAddress);
     const etherFundContract = new web3.eth.Contract(EtherFund.abi);
     etherFundContract.options.address = req.body.contractAddress;
-    etherFundContract.methods.getBackerCount().call()
-      .then(res => console.log(res))
     etherFundContract.methods.totalRaised().call()
       .then(result => {
         const updatedTotal = web3.utils.fromWei(result, "ether");
         Item.update(
-          { raised : updatedTotal }, 
+          { raised : updatedTotal },
           { where: { id: req.params.id } }
         )
           .then(data => {
@@ -53,7 +51,7 @@ module.exports = {
           })
           .catch(err => res.status(400).send(err));
       })
-    etherFundContract.methods.getBackerCount().call()
-      .then(res => console.log(res))
+    //etherFundContract.getBackerCount.call()
+      //.then(res => console.log(res))
   }
 };

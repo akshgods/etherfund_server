@@ -56,11 +56,6 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: 0,
       allowNull: false
     },
-    backerCount: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-      allowNull: false
-    },
     target: {
       type: DataTypes.FLOAT,
       allowNull: false
