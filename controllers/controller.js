@@ -1,7 +1,6 @@
 const Item = require("../models").Item;
 const Web3 = require("web3");
 const EtherFund = require("../contracts/EtherFund.json");
-const abi = require("../contracts/abi.json");
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
 module.exports = {
@@ -37,31 +36,24 @@ module.exports = {
   },
 
   updateCampaignFundingInfo: (req, res) => {
-    console.log(req.body);
-    console.log(req.params.id);
-    const etherFundContract = new web3.eth.Contract(abi);
+    console.log(req.body.contractAddress);
+    const etherFundContract = new web3.eth.Contract(EtherFund.abi);
     etherFundContract.options.address = req.body.contractAddress;
+    etherFundContract.methods.getBackerCount().call()
+      .then(res => console.log(res))
     etherFundContract.methods.totalRaised().call()
-      .then(res => {
-        console.log(web3.utils.fromWei(res, 'ether'))
-        etherFundContract.methods
-          .getBackerCount()
-          .call({}, (err, res) => {
-            console.log(res);
-          });
+      .then(result => {
+        const updatedTotal = web3.utils.fromWei(result, "ether");
+        Item.update(
+          { raised : updatedTotal }, 
+          { where: { id: req.params.id } }
+        )
+          .then(data => {
+            return res.status(200).json(data);
+          })
+          .catch(err => res.status(400).send(err));
       })
-    
-    /*
-    Item.update(
-      { contractAddress: req.body.contractAddress },
-      { where: { id: req.params.id } }
-    )
-      .then(data => {
-        console.log(data);
-        return res.status(200).json(data);
-      })
-      .catch(err => res.status(400).send(err));
-      */
-    return res.status(200).json("OK");
+    etherFundContract.methods.getBackerCount().call()
+      .then(res => console.log(res))
   }
 };

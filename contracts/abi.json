@@ -36,6 +36,32 @@
     "inputs": [
       {
         "indexed": false,
+        "name": "winnerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "LogWinnerPaid",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "contribute",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "name": "addr",
         "type": "address"
       },
@@ -79,32 +105,6 @@
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "winnerAddress",
-        "type": "address"
-      }
-    ],
-    "name": "LogWinnerPaid",
-    "type": "event"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "contribute",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": true,
-    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -252,7 +252,7 @@
     "name": "getBackerCount",
     "outputs": [
       {
-        "name": "count",
+        "name": "",
         "type": "uint256"
       }
     ],
